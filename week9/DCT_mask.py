@@ -26,8 +26,8 @@ def Spatial2Frequency_mask(block, n = 8):
             # DCT에서 사용된 mask는 (4x4) mask가 16개 있음 (u, v) 별로 1개씩 있음 u=4, v=4  #
             # 4중 for문으로 구현 시 감점 예정                                             #
             ##########################################################################
-            #tmp = block * np.cos(((2*x+1) * u_ * np.pi) / (2*n)) * np.cos(((2*y+1) * v_ * np.pi) / (2*n))
-            #dst[v_, u_] = C(u_, n=n) * C(v_, n=n) * np.sum(tmp)
+            # tmp = block * np.cos(((2*x+1) * u_ * np.pi) / (2*n)) * np.cos(((2*y+1) * v_ * np.pi) / (2*n))
+            # dst[v_, u_] = C(u_, n=n) * C(v_, n=n) * np.sum(tmp)
 
             tmp = C(u_, n=n) * C(v_, n=n) *                     \
                   np.cos(((2*x+1) * u_ * np.pi) / (2*n)) *      \
