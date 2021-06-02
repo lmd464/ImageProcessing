@@ -40,10 +40,13 @@ def get_threshold(src, type='rice'):
         p = hist / h*w
     else:
         # 여러줄로 작성하셔도 상관 없습니다.
-        p = hist / h*w
+        total_pixels = h*w - hist[0]
+        hist[0] = 0                 # mask로 지운 부분 값 0 -> 거르기
+        p = hist / total_pixels
 
     k_opt_warw = []
     k_opt_warb = []
+
     for k in range(256):
         # 각각 한 줄로 작성하세요
         q1 = np.sum(p[0:k+1])   # 0~k
@@ -114,9 +117,11 @@ def meat_main():
     #####################################################
     src = meat
 
-    dst, val = get_threshold(src, 'meat')
-    #tip : 4칙연산(그냥 사칙연산 혹은 cv2.사칙연산 잘 사용하기)
+    mask = cv2.multiply(mask, 1/255)        # 값 255 -> 1 : 관심영역만 그대로
+    dst = cv2.multiply(src, mask)
+    dst, val = get_threshold(dst, 'meat')
 
+    # tip : 4칙연산(그냥 사칙연산 혹은 cv2.사칙연산 잘 사용하기)
     dst = cv2.multiply((255 - dst), mask)
     final = cv2.add(src, dst)
 
